@@ -1,0 +1,114 @@
+# Candidate Profile — used by sub-agents for job matching and resume tailoring
+# Update this with your actual details
+
+name: "Uriel David Tello Padilla"
+title: "Senior Data Engineer | Cloud Solutions Architect"
+location: "Morelia, Michoacan, Mexico"
+timezone: "America/Mexico_City"
+years_experience: 9
+
+contact:
+  email: "urieldavidtellopadilla@gmail.com"
+  phone: "(443) 491-0277"
+  linkedin: "https://www.linkedin.com/in/david-tello-850a63bb/"
+
+skills:
+  cloud_and_data:
+    - Azure Databricks
+    - Microsoft Fabric
+    - AWS Glue
+    - AWS EMR
+    - AWS Redshift
+    - Snowflake
+    - Delta Lake
+    - Azure Data Factory
+    - Azure Synapse
+  programming:
+    - Python
+    - PySpark
+    - SQL
+    - Scala
+    - Java
+    - Julia
+  devops_and_tools:
+    - Terraform
+    - Docker
+    - Kubernetes
+    - Airflow
+    - dbt
+    - Git
+    - Azure DevOps
+    - Jenkins
+    - GitHub Actions
+  data_concepts:
+    - ETL/ELT pipelines
+    - Lake House architecture
+    - CI/CD for data workflows
+    - Stream processing
+    - Data partitioning
+    - GDPR-compliant anonymization
+
+languages:
+  - language: English
+    proficiency: "90%"
+  - language: Spanish
+    proficiency: Native
+
+education:
+  - degree: "M.Sc. Physics & Math"
+    institution: "IPN - ESFM, CDMX"
+    years: "2019 - 2021"
+  - degree: "B.Sc. Physics & Math"
+    institution: "UMSNH, Morelia"
+    years: "2013 - 2017"
+
+certifications:
+  - name: "Machine Learning Specialization"
+    issuer: "Coursera"
+    year: 2022
+
+target_roles:
+  type: "contractor"
+  remote: true
+  company_origin: "US"
+  location_based: "Mexico/LATAM"
+  payment: "US-paid"
+  keywords:
+    - "Senior Data Engineer"
+    - "Data Engineer"
+    - "ML Engineer"
+    - "Cloud Data Engineer"
+
+experience_highlights:
+  - company: "Capgemini"
+    role: "Data Engineer"
+    period: "Jun 2025 - Present"
+    key: "Microsoft Fabric, Azure Data Factory, Terraform, Databricks, dbt, Airflow, AWS"
+  - company: "Hexaware Technologies"
+    role: "Data Engineer"
+    period: "Jul 2024 - Jun 2025"
+    key: "Lake House, Azure Purview, Snowflake, Fabric"
+  - company: "Sherwin Williams"
+    role: "Sr Data Engineer (Freelancer Contractor)"
+    period: "Jan 2023 - Jan 2025"
+    key: "US remote contractor, Fabric, Databricks, CI/CD, Terraform"
+  - company: "Eviden"
+    role: "Data Engineer"
+    period: "May 2024 - Jul 2024"
+    key: "Spark Streaming, Airflow, Datadog"
+  - company: "PRAXAIRLINDE"
+    role: "Data Engineer"
+    period: "Jan 2024 - May 2024"
+    key: "Fabric, Databricks, Delta Lake, Airflow"
+  - company: "TCS (TATA Consultancy Services)"
+    role: "Data Engineer"
+    period: "Aug 2023 - Jan 2024"
+    key: "CI/CD, Azure DevOps, GitHub Actions, Great Expectations"
+  - company: "Grupo Salinas (Elektra EKT)"
+    role: "Data Engineer"
+    period: "Jan 2022 - Jul 2023"
+    key: "Stream processing, Azure Synapse, GDPR, real-time pipelines"
+  - company: "Dealership Performance 360"
+    role: "Data Engineer"
+    period: "Feb 2017 - Dec 2021"
+    key: "AWS Glue, EMR, Kafka, Scala, Kubernetes, Terraform"
