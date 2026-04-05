@@ -1,0 +1,163 @@
+%-------------------------
+% Resume - Dollar Green Theme
+% TEMPLATIZED for JobHunter — replacement zones marked with %%ZONE%%
+%-------------------------
+
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{parskip}
+\usepackage{fontawesome5}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage[margin=0pt]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage{graphicx}
+\usepackage{eso-pic}
+
+% Colors - Dark Dollar Green Theme
+\definecolor{sidebar}{HTML}{0B3D1E}
+\definecolor{lightgreen}{HTML}{85BB65}
+\definecolor{darkgreen}{HTML}{0D4023}
+\definecolor{accentgreen}{HTML}{1E8449}
+\definecolor{textgray}{HTML}{333333}
+
+% Font Improvements
+\usepackage[default]{lato}
+\usepackage[T1]{fontenc}
+
+
+\pagestyle{empty}
+
+% Draw sidebar on every page using eso-pic
+\AddToShipoutPictureBG{%
+\AtPageLowerLeft{%
+\color{sidebar}\rule{6.2cm}{\paperheight}%
+}%
+}
+
+% Section formatting
+\titleformat{\section}{\Large\bfseries\color{darkgreen}}{}{0em}{}[\color{sidebar}\titlerule]
+\titlespacing*{\section}{0pt}{6pt}{4pt}
+
+\begin{document}
+
+\noindent
+\begin{minipage}[t]{6.2cm}
+% ===== LEFT SIDEBAR =====
+\vspace*{0.4cm}
+\hspace{0.35cm}
+\begin{minipage}[t]{5.5cm}
+\color{white}
+\centering
+
+% Photo
+\begin{tikzpicture}
+\clip (0,0) circle (1.6cm);
+\node at (0,-0.2) {\includegraphics[width=2.5cm]{daveProfile.png}};
+\end{tikzpicture}
+
+\vspace{0.4cm}
+
+% Contact
+{\small
+\faMapMarker*\hspace{0.2cm}Morelia, Michoacán, MX\\[0.2cm]
+\faPhone*\hspace{0.2cm}(443) 491-0277\\[0.2cm]
+\faEnvelope\hspace{0.2cm}urieldavidtellopadilla\\@gmail.com\\[0.2cm]
+\faLinkedin\hspace{0.2cm}\href{https://www.linkedin.com/in/david-tello-850a63bb/}{/in/david-tello}
+}
+
+\vspace{0.3cm}
+{\color{lightgreen!60}\rule{4.8cm}{0.4pt}}
+\vspace{0.25cm}
+
+% Profile — REPLACEMENT ZONE
+{\large\bfseries PROFILE}\\[0.3cm]
+\begin{flushleft}
+\small
+%%SUMMARY%%
+\end{flushleft}
+
+\vspace{0.2cm}
+{\color{lightgreen!60}\rule{4.8cm}{0.4pt}}
+\vspace{0.2cm}
+
+% Skills — REPLACEMENT ZONE
+{\large\bfseries SKILLS}\\[0.3cm]
+\begin{flushleft}
+\small
+%%SKILLS_ORDER%%
+\end{flushleft}
+
+\vspace{0.2cm}
+{\color{lightgreen!60}\rule{4.8cm}{0.4pt}}
+\vspace{0.2cm}
+
+% Languages
+{\large\bfseries LANGUAGES}\\[0.3cm]
+\small
+English - 90\% Proficient\\
+Spanish - Native
+
+\vspace{0.2cm}
+{\color{lightgreen!60}\rule{4.8cm}{0.4pt}}
+\vspace{0.2cm}
+
+% Certification
+{\large\bfseries CERTIFICATION}\\[0.3cm]
+\begin{flushleft}
+\small
+\textbf{Machine Learning}\\
+\textbf{Specialization}\\
+Coursera, 2022
+\end{flushleft}
+
+\vspace{0.2cm}
+{\color{lightgreen!60}\rule{4.8cm}{0.4pt}}
+\vspace{0.2cm}
+
+% Education
+{\large\bfseries EDUCATION}\\[0.3cm]
+\begin{flushleft}
+\small
+\textbf{M.Sc. Physics \& Math}\\
+IPN - ESFM, CDMX\\
+2019 - 2021\\[0.25cm]
+
+\textbf{B.Sc. Physics \& Math}\\
+UMSNH, Morelia\\
+2013 - 2017
+\end{flushleft}
+
+\end{minipage}
+\end{minipage}%
+\hfill%
+\begin{minipage}[t]{14.3cm}
+% ===== RIGHT CONTENT =====
+\vspace*{0.5cm}
+\hspace{0.4cm}
+\begin{minipage}[t]{13.4cm}
+\color{textgray}
+
+% Name
+{\fontsize{26}{30}\selectfont\bfseries\color{darkgreen} Uriel David Tello Padilla}\\[0.15cm]
+{\large\color{accentgreen} Senior Data Engineer | Cloud Solutions Architect}
+
+\vspace{0.4cm}
+
+% Experience — REPLACEMENT ZONE
+\section{EXPERIENCE}
+
+%%EXPERIENCE_HIGHLIGHTS%%
+
+\vspace{0.3cm}
+
+% Relevant Projects — REPLACEMENT ZONE (optional, appended if provided)
+%%RELEVANT_PROJECTS%%
+
+\end{minipage}
+\end{minipage}
+
+\end{document}
