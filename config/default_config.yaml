@@ -1,0 +1,29 @@
+# JobHunter Default Configuration
+# Copy to ~/.jobhunter/config.yaml and customize
+
+autopilot:
+  schedule: "off"  # daily | 2days | weekly | off
+
+search:
+  default_criteria:
+    role: "Senior Data Engineer"
+    location: "Mexico"
+    remote: true
+    company_origin: "US"
+    employment_type: "contractor"
+    max_results: 10
+
+rate_limits:
+  search_per_hour: 30
+  search_delay_seconds: [2, 5]  # min, max random
+  applications_per_hour: 3
+  application_delay_minutes: [5, 15]  # min, max random
+  fetch_delay_seconds: [1, 3]
+
+resume:
+  tailoring_default: "full"  # full | master_only
+  cover_letter_default: false
+
+dashboard:
+  host: "127.0.0.1"
+  port: 3000
