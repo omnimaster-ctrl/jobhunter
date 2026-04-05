@@ -45,8 +45,8 @@ class TestDatabaseInit:
         db.close()
 
     def test_creates_all_tables(self, db):
-        tables = set(db.list_tables())
-        assert {"jobs", "applications", "resumes", "events"}.issubset(tables)
+        tables = {t for t in db.list_tables() if t != "sqlite_sequence"}
+        assert tables == {"jobs", "applications", "resumes", "events"}
 
 
 # ---------------------------------------------------------------------------
@@ -75,8 +75,8 @@ class TestJobsCRUD:
         db.insert_job(title="A", company="X", url="https://a.com", source="linkedin")
         db.insert_job(title="B", company="Y", url="https://b.com", source="indeed")
         linkedin_jobs = db.get_jobs(source="linkedin")
-        assert all(j["source"] == "linkedin" for j in linkedin_jobs)
-        assert len(linkedin_jobs) >= 1
+        assert len(linkedin_jobs) == 1
+        assert linkedin_jobs[0]["title"] == "A"
 
     def test_job_exists_by_url(self, db):
         url = "https://example.com/job/exists"
@@ -113,9 +113,12 @@ class TestApplicationsCRUD:
     def test_get_applications_by_status(self, db):
         app_id = _make_application(db)
         db.update_application_status(app_id, "ready")
+        # Create a second app that stays in draft
+        job2 = _make_job(db, url="https://example.com/job/2")
+        _make_application(db, job_id=job2)
         results = db.get_applications(status="ready")
-        assert len(results) >= 1
-        assert all(r["status"] == "ready" for r in results)
+        assert len(results) == 1
+        assert results[0]["status"] == "ready"
 
 
 # ---------------------------------------------------------------------------
@@ -167,16 +170,22 @@ class TestEventsCRUD:
 
 class TestAnalyticsQueries:
     def test_get_stats(self, db):
-        job_id = _make_job(db)
-        db.insert_job(
-            title="Senior Engineer", company="Beta", url="https://beta.com",
+        job1 = db.insert_job(
+            title="Data Engineer", company="Alpha", url="https://alpha.com",
             match_score=85
         )
-        app_id = _make_application(db, job_id=job_id)
-        db.update_application_status(app_id, "submitted")
+        job2 = db.insert_job(
+            title="Senior Engineer", company="Beta", url="https://beta.com",
+            match_score=72
+        )
+        app1 = db.create_application(job1)
+        app2 = db.create_application(job2)
+        db.update_application_status(app1, "submitted")
+        db.update_application_status(app2, "interview")
 
         stats = db.get_stats()
-        assert stats["total_jobs"] >= 2
-        assert stats["total_applications"] >= 1
-        assert stats["avg_match_score"] == 85.0
-        assert "submitted" in stats["status_counts"]
+        assert stats["total_jobs"] == 2
+        assert stats["total_applications"] == 2
+        assert stats["avg_match_score"] == 78.5
+        assert stats["status_counts"]["submitted"] == 1
+        assert stats["status_counts"]["interview"] == 1
