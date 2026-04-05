@@ -20,8 +20,10 @@ def _deep_merge(base: dict, override: dict) -> dict:
 
 
 class Config:
-    def __init__(self, user_config_path: str) -> None:
-        self._user_config_path = Path(user_config_path)
+    def __init__(self, user_config_path: str = None) -> None:
+        self._user_config_path = Path(
+            user_config_path or str(Path.home() / ".jobhunter" / "config.yaml")
+        )
 
         with open(_DEFAULT_CONFIG_PATH, "r") as f:
             self._config = yaml.safe_load(f) or {}
