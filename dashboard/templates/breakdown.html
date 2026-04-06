@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Breakdown - JobHunter Dashboard{% endblock %}
+
+{% block content %}
+<h1>Job Breakdown</h1>
+
+{% if jobs %}
+<div class="card-row">
+    <div class="card card-half">
+        <h2>By Employment Type</h2>
+        <div class="chart-container">
+            <canvas id="typeChart"></canvas>
+        </div>
+    </div>
+    <div class="card card-half">
+        <h2>By Company</h2>
+        <div class="chart-container">
+            <canvas id="companyChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    const jobs = {{ jobs | tojson }};
+
+    // Employment type pie chart
+    const typeCounts = {};
+    jobs.forEach(j => {
+        const t = j.employment_type || 'Unknown';
+        typeCounts[t] = (typeCounts[t] || 0) + 1;
+    });
+
+    new Chart(document.getElementById('typeChart'), {
+        type: 'pie',
+        data: {
+            labels: Object.keys(typeCounts),
+            datasets: [{
+                data: Object.values(typeCounts),
+                backgroundColor: [
+                    '#3b82f6', '#22c55e', '#eab308', '#ef4444',
+                    '#8b5cf6', '#ec4899', '#06b6d4', '#f97316'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // Company bar chart
+    const companyCounts = {};
+    jobs.forEach(j => {
+        const c = j.company || 'Unknown';
+        companyCounts[c] = (companyCounts[c] || 0) + 1;
+    });
+
+    const sortedCompanies = Object.entries(companyCounts)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 15);
+
+    new Chart(document.getElementById('companyChart'), {
+        type: 'bar',
+        data: {
+            labels: sortedCompanies.map(c => c[0]),
+            datasets: [{
+                label: 'Jobs',
+                data: sortedCompanies.map(c => c[1]),
+                backgroundColor: '#3b82f6',
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+</script>
+{% else %}
+<div class="card">
+    <p class="empty-state">No jobs found yet.</p>
+</div>
+{% endif %}
+{% endblock %}

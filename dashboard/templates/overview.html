@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Overview - JobHunter Dashboard{% endblock %}
+
+{% block content %}
+<h1>Overview</h1>
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-value">{{ stats.total_jobs }}</div>
+        <div class="kpi-label">Total Jobs</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-value">{{ stats.total_applications }}</div>
+        <div class="kpi-label">Total Applications</div>
+    </div>
+    <div class="kpi-card">
+        <div class="kpi-value">{{ "%.0f"|format(stats.avg_match_score or 0) }}</div>
+        <div class="kpi-label">Avg Match Score</div>
+    </div>
+    <div class="kpi-card">
+        {% set responded = (stats.status_counts.get('response', 0) + stats.status_counts.get('interview', 0) + stats.status_counts.get('offer', 0)) %}
+        {% set submitted = stats.status_counts.get('submitted', 0) + stats.status_counts.get('viewed', 0) + responded %}
+        <div class="kpi-value">{{ "%.0f"|format((responded / submitted * 100) if submitted > 0 else 0) }}%</div>
+        <div class="kpi-label">Response Rate</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Status Breakdown</h2>
+    <div class="chart-container">
+        <canvas id="statusChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const statusCounts = {{ stats.status_counts | tojson }};
+    const labels = Object.keys(statusCounts);
+    const values = Object.values(statusCounts);
+
+    new Chart(document.getElementById('statusChart'), {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: [
+                    '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7',
+                    '#d946ef', '#ec4899', '#f43f5e', '#ef4444',
+                    '#f97316', '#eab308', '#22c55e', '#14b8a6',
+                    '#06b6d4'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right' }
+            }
+        }
+    });
+</script>
+{% endblock %}

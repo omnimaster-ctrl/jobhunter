@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Funnel - JobHunter Dashboard{% endblock %}
+
+{% block content %}
+<h1>Application Funnel</h1>
+
+<div class="card">
+    <h2>Pipeline Stages</h2>
+    <div class="chart-container chart-tall">
+        <canvas id="funnelChart"></canvas>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Other Statuses</h2>
+    <div class="kpi-grid">
+        <div class="kpi-card kpi-warn">
+            <div class="kpi-value">{{ status_counts.get('rejected', 0) }}</div>
+            <div class="kpi-label">Rejected</div>
+        </div>
+        <div class="kpi-card kpi-error">
+            <div class="kpi-value">{{ status_counts.get('failed', 0) }}</div>
+            <div class="kpi-label">Failed</div>
+        </div>
+        <div class="kpi-card kpi-muted">
+            <div class="kpi-value">{{ status_counts.get('skipped', 0) }}</div>
+            <div class="kpi-label">Skipped</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const pipelineStages = [
+        'draft', 'tailoring', 'ready', 'approved', 'submitting',
+        'submitted', 'viewed', 'response', 'interview', 'offer'
+    ];
+    const statusCounts = {{ status_counts | tojson }};
+
+    const labels = pipelineStages.map(s => s.charAt(0).toUpperCase() + s.slice(1));
+    const values = pipelineStages.map(s => statusCounts[s] || 0);
+
+    const colors = [
+        '#94a3b8', '#64748b', '#3b82f6', '#2563eb',
+        '#6366f1', '#8b5cf6', '#a855f7', '#22c55e',
+        '#16a34a', '#eab308'
+    ];
+
+    new Chart(document.getElementById('funnelChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Applications',
+                data: values,
+                backgroundColor: colors,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

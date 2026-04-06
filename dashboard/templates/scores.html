@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Scores - JobHunter Dashboard{% endblock %}
+
+{% block content %}
+<h1>Match Scores</h1>
+
+{% if score_data %}
+<div class="card">
+    <h2>Score by Job</h2>
+    <div class="chart-container chart-tall">
+        <canvas id="scoresChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const scoreData = {{ score_data | tojson }};
+
+    const labels = scoreData.map(d => d.title + ' @ ' + d.company);
+    const values = scoreData.map(d => d.score);
+
+    const bgColors = values.map(v => {
+        if (v >= 80) return '#22c55e';
+        if (v >= 60) return '#3b82f6';
+        if (v >= 40) return '#eab308';
+        return '#ef4444';
+    });
+
+    new Chart(document.getElementById('scoresChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Match Score',
+                data: values,
+                backgroundColor: bgColors,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Match Score' }
+                }
+            }
+        }
+    });
+</script>
+{% else %}
+<div class="card">
+    <p class="empty-state">No scored jobs yet. Scores will appear here once jobs are analyzed.</p>
+</div>
+{% endif %}
+{% endblock %}
