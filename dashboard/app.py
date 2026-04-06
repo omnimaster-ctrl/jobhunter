@@ -96,8 +96,15 @@ async def scores(request: Request):
 async def timeline(request: Request):
     db = get_db()
     try:
-        apps = db.get_applications()
-        applications = _rows_to_dicts(apps)
+        rows = db.conn.execute(
+            """
+            SELECT a.*, j.title AS job_title, j.company AS job_company
+            FROM applications a
+            JOIN jobs j ON a.job_id = j.id
+            ORDER BY a.created_at DESC
+            """
+        ).fetchall()
+        applications = _rows_to_dicts(rows)
         return templates.TemplateResponse(
             request, "timeline.html", {"applications": applications}
         )

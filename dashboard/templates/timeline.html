@@ -11,20 +11,20 @@
         <thead>
             <tr>
                 <th>Date</th>
-                <th>Job ID</th>
+                <th>Job Title</th>
+                <th>Company</th>
                 <th>Status</th>
                 <th>Applied</th>
-                <th>Notes</th>
             </tr>
         </thead>
         <tbody>
             {% for app in applications | sort(attribute='created_at', reverse=true) %}
             <tr>
                 <td>{{ app.created_at[:10] if app.created_at else '-' }}</td>
-                <td>{{ app.job_id }}</td>
+                <td>{{ app.job_title or '-' }}</td>
+                <td>{{ app.job_company or '-' }}</td>
                 <td><span class="status-badge status-{{ app.status }}">{{ app.status }}</span></td>
                 <td>{{ app.applied_at[:10] if app.applied_at else '-' }}</td>
-                <td>{{ app.notes or '-' }}</td>
             </tr>
             {% endfor %}
         </tbody>
