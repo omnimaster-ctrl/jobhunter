@@ -9,6 +9,16 @@ Examples:
 - `/find-jobs 10 senior data engineer remote US companies for Mexico`
 - `/find-jobs top 5 ML engineer contractor positions this week`
 
+## Telegram Channel Integration
+
+This command runs inside a Claude Code session with Telegram channel enabled.
+Messages from the user arrive as `<channel source="telegram" chat_id="..." message_id="...">`.
+
+**CRITICAL:** Your text output does NOT reach Telegram. You MUST use the `reply` MCP tool to send all results, questions, and updates to the user:
+```
+reply(chat_id: "<from inbound message>", text: "...", reply_to: "<message_id>")
+```
+
 ## Process
 
 1. **Parse criteria** from the user's natural language input. Extract:
@@ -22,9 +32,10 @@ Examples:
 2. **Build search URL** using `linkedin.linkedin_search.build_search_url()` with the parsed filters
 
 3. **Check LinkedIn session** using `linkedin.session_manager.SessionManager`
-   - If expired, notify user and wait for re-auth
+   - If expired, use `reply` tool to notify user and wait for re-auth
 
 4. **Scrape job listings** using `linkedin.linkedin_search.scrape_job_listings()`
+   - Use `react(chat_id, message_id, emoji: "👀")` to acknowledge the search started
 
 5. **Deduplicate** — Check each job URL against the database (`db.database.Database.job_exists()`)
 
@@ -32,16 +43,9 @@ Examples:
 
 7. **Store jobs** in the database with match scores
 
-8. **Present results** to the user, ranked by match score:
+8. **Send results via Telegram** — Use `reply` tool to send ranked results:
    ```
-   🎯 Found X new jobs (Y duplicates skipped)
-
-   1. [92/100] Senior Data Engineer — Acme Corp
-      📍 Remote (Mexico) | 💰 $50-75/hr | ✅ Easy Apply
-      🔗 https://linkedin.com/jobs/view/123
-
-   2. [85/100] Data Engineer — Beta Inc
-      ...
+   reply(chat_id: "...", text: "🎯 Found X new jobs (Y duplicates skipped)\n\n1. [92/100] Senior Data Engineer — Acme Corp\n   📍 Remote (Mexico) | 💰 $50-75/hr | ✅ Easy Apply\n\n2. [85/100] Data Engineer — Beta Inc\n   ...")
    ```
 
-9. **Ask user** which jobs to apply to: "Reply with job numbers to apply (e.g., '1,3,5') or 'all'"
+9. **Ask user** via `reply`: "Reply with job numbers to apply (e.g., '1,3,5') or 'all'"

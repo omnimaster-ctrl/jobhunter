@@ -25,12 +25,22 @@ You will receive:
 6. **Screenshot** — Take a screenshot as proof
 7. **Log result** — Update the database with success/failure
 
+## Telegram Delivery
+
+When running via Telegram channel, use the MCP `reply` tool for all user-facing communication:
+- **Progress updates:** `reply(chat_id, text: "⏳ Submitting application for [Job]...")`
+- **Screenshots:** `reply(chat_id, text: "✅ Submitted!", files: ["/path/to/screenshot.png"])`
+- **Failures:** `reply(chat_id, text: "⚠️ Failed: [reason]. URL saved for manual apply.")`
+- **Session expired:** `reply(chat_id, text: "🔐 LinkedIn session expired. Please re-authenticate.")`
+
+The `chat_id` is passed from the parent orchestrator (the /apply command).
+
 ## Error Handling
 
-- If Easy Apply button not found → report as "not Easy Apply"
-- If unsupported form field → STOP, save the job URL for manual application
-- If submission fails → screenshot the error, report failure
-- If session expired → notify for re-authentication
+- If Easy Apply button not found → report as "not Easy Apply", notify via `reply`
+- If unsupported form field → STOP, save the job URL for manual application, notify via `reply`
+- If submission fails → screenshot the error, send screenshot via `reply` with files param
+- If session expired → notify via `reply` for re-authentication
 
 ## Tools Available
 
@@ -38,10 +48,14 @@ You will receive:
 - `linkedin.session_manager` — SessionManager
 - `linkedin.linkedin_apply` — submit_easy_apply, ApplicationResult
 - `db.database` — Database (for logging)
+- MCP `reply` — Send text/files to Telegram (chat_id, text, files, reply_to)
+- MCP `react` — Add emoji reaction to Telegram message
+- MCP `edit_message` — Edit a previous bot message (for progress updates)
 
 ## Rules
 - ALWAYS use random delays between actions (anti-detection)
 - NEVER skip the resume upload step
 - NEVER submit without user approval (this agent is called AFTER approval)
 - Take screenshots at key points (form filled, after submission)
+- Send screenshots to user via Telegram `reply` with `files` parameter
 - Rate limit: wait 5-15 minutes between applications

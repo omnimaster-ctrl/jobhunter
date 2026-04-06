@@ -15,9 +15,12 @@ SCHEDULES: dict[str, str] = {
 }
 
 CRON_COMMAND: str = (
-    'claude --channels plugin:telegram@claude-plugins-official'
+    "cd ~/jobhunter && claude"
+    " --channels plugin:telegram@claude-plugins-official"
+    " --allowedTools 'Bash,Read,Write,Edit,Glob,Grep,"
+    "mcp__telegram__reply,mcp__telegram__react'"
     ' --prompt "Run autopilot: search for jobs using saved criteria'
-    ' and notify me of new matches"'
+    " and notify me of new matches via Telegram reply tool\""
 )
 
 CRON_TAG: str = "# jobhunter-autopilot"

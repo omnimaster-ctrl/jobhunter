@@ -61,6 +61,9 @@ class TestConstants:
     def test_cron_command_contains_claude(self):
         assert "claude" in CRON_COMMAND
 
+    def test_cron_command_contains_telegram_channel(self):
+        assert "plugin:telegram@claude-plugins-official" in CRON_COMMAND
+
     def test_cron_tag_value(self):
         assert CRON_TAG == "# jobhunter-autopilot"
 
